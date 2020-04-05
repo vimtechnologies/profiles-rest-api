@@ -4,8 +4,37 @@ from django.db import models
 # with standard django model. Below are the imports you need to add
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.models import BaseUserManager
 # under this we need to create a new class called user profile and inherit from AbstractUser and PermissionsMixin
 # Create your models here.
+
+
+class UserProfileManager(BaseUserManager):
+    """Manager for user profiles"""
+
+    def create_user(self, email, name, password=None):# if you do not specify a password it will default to None and because of how django works a no password will not work you will not be able to authenticate with the user
+        """Create a new user profile"""
+        if not email:
+            raise ValueError('User must have an email address')
+        #next we do whatis called normalizing an email address it does second half email address all lower case in order to have only one email address
+        email = self.normalize_email(email)
+        user = self.model(email=email, name=name)
+
+        user.set_password(password) # this ensure that the password is always encrypted in the database
+        user.save(using=self._db)
+
+        return user
+
+    def create_superuser(self, email, name, password):
+        """Create and save a new supersuer with given details"""
+        user = self.create_user(email, name, password)
+
+        user.is_superuser = True
+        user.is_staff = True
+        user.save(using=self._db)
+
+        return user
+
 
 class UserProfile(AbstractUser, PermissionsMixin):
     """Database model for user in the system""" # python standard for writing docstrings
