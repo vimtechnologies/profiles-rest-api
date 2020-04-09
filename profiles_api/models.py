@@ -2,7 +2,7 @@ from django.db import models
 # out of the box django comes with the default user model that is used with the standard authentication system and also the django admin
 # we are going to override this with our custom module that allows to use an email address instead of the standar username that comes
 # with standard django model. Below are the imports you need to add
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 # under this we need to create a new class called user profile and inherit from AbstractUser and PermissionsMixin
@@ -28,7 +28,6 @@ class UserProfileManager(BaseUserManager):
     def create_superuser(self, email, name, password):
         """Create and save a new supersuer with given details"""
         user = self.create_user(email, name, password)
-
         user.is_superuser = True
         user.is_staff = True
         user.save(using=self._db)
@@ -36,7 +35,7 @@ class UserProfileManager(BaseUserManager):
         return user
 
 
-class UserProfile(AbstractUser, PermissionsMixin):
+class UserProfile(AbstractBaseUser, PermissionsMixin):
     """Database model for user in the system""" # python standard for writing docstrings
     email = models.EmailField(max_length=255, unique=True)
     # the above line email means we want an email column on our userprofile database and we want this column field filled with max 255 character and
