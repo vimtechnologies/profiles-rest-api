@@ -47,7 +47,7 @@ class HelloApiView(APIView):
 
 
 
-class HelloViewSet(viewsets.ViewSet)
+class HelloViewSet(viewsets.ViewSet):
     """Test AOI Viewset"""
 
     def list(self, request):
@@ -58,3 +58,4 @@ class HelloViewSet(viewsets.ViewSet)
             'Provides more functionality with less code',
         ]
         return Response({'message': 'Hello!', 'a_viewset': a_vieset})
+
