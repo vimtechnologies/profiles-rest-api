@@ -4,6 +4,7 @@ from rest_framework import status
 from profiles_api import serializers
 from rest_framework import viewsets
 
+
 class HelloApiView(APIView):
     """Test Api View"""
     serializer_class = serializers.HelloSerializers
@@ -11,10 +12,10 @@ class HelloApiView(APIView):
     def get(self, request, format=None):
         """Returns a list of APIview features"""
         an_apiview = [
-           'Uses HTTP methods as function (get, post patch, put, delete)',
-           'Is similar to a traditional Django View',
-           'Gives you the most control over your application logic',
-           'Is mapped manually to URLs',
+            'Uses HTTP methods as function (get, post patch, put, delete)',
+            'Is similar to a traditional Django View',
+            'Gives you the most control over your application logic',
+            'Is mapped manually to URLs',
         ]
 
         return Response({'message': 'hello', 'an_apiview': an_apiview})
@@ -46,25 +47,21 @@ class HelloApiView(APIView):
         return Response({'method': 'DELETE'})
 
 
-
 class HelloViewSet(viewsets.ViewSet):
-    """Test AOI Viewset"""
+    """Test API Viewset"""
     serializers_class = serializers.HelloSerializers
 
     def list(self, request):
         """Return a hello message"""
-        a_viewset =[
+        a_viewset = [
             'Uses Action (list, create, retrieve, update partial_update)',
             'Automatically map to URLs using Routers',
             'Provides more functionality with less code',
         ]
         return Response({'message': 'Hello!', 'a_viewset': a_viewset})
 
-
     def create(self, request):
         """Create a new hello message"""
-        serializers = self.serializers_class(data=request.data)
-
         if serializers.is_valid():
             name = serializers.validated_data.get('name')
             message = f'Hello{name}'
