@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from profiles_api import serializers
-
+from rest_framework import viewsets
 
 class HelloApiView(APIView):
     """Test Api View"""
@@ -47,5 +47,14 @@ class HelloApiView(APIView):
 
 
 
+class HelloViewSet(viewsets.ViewSet)
+    """Test AOI Viewset"""
 
-
+    def list(self, request):
+        """Return a hello message"""
+        a_vieset =[
+            'Uses Action (list, create, retrieve, update partial_update)',
+            'Automatically map to URLs using Routers',
+            'Provides more functionality with less code',
+        ]
+        return Response({'message': 'Hello!', 'a_viewset': a_vieset})
